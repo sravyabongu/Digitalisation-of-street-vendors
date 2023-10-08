@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	{% include "header.html" %}
+</head>
+<body>
+	{% include "menu2.html" %}
+	<div class="register-form-main">
+		<div class="container">
+			<div class="title-div">
+				<h4 class="tittle" align="center">
+                    <a href="/submitcart?modeofpayment=cash on delivery"><input type="button" value="submit cart for cash on delivery"></a>
+                    <a href="/submitcart?modeofpayment=online payment"><input type="button" value="submit cart for online payment"></a>
+				</h4>
+                <br/>
+				<div class="tittle-style" align="center">
+					<p style="color: red; size: 50px;">{{message}}</p>
+				</div>
+			</div>
+			<table id="customers">
+				<tr>
+                    <th>Product Name</th>
+                    <th>Price</th>
+					<th>Quantity</th>
+                    <th>Category</th>
+                    <th>Vendor</th>
+                    <th>Location</th>
+                    <th>Description</th>
+
+                    {% if request.session.role in "customer" %}
+                       <th>Delete</th>
+                    {% endif %}
+				</tr>
+
+				{% for product in products %}
+                    <tr>
+                        <td>{{product.name}}</td>
+                        <td>{{product.cprice}}</td>
+                        <td>{{product.cqty}}</td>
+                        <td>{{product.category}}</td>
+                        <td>{{product.vendor}}</td>
+                        <td>{{product.location}}</td>
+                        <td>{{product.description}}</td>
+
+                        {% if request.session.role in "customer" %}
+                            <td><a href="/deletecart?product={{ product.id}}_{{ product.cqty}}">Delete Cart</a></td>
+                        {% endif %}
+
+                    </tr>
+                {% endfor %}
+			</table>
+		</div>
+	</div>
+	{% include "footer.html" %}
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	{% include "header.html" %}
+</head>
+<body>
+	{% include "menu2.html" %}
+	<div class="register-form-main">
+		<div class="container">
+			<div class="title-div">
+				<h3 class="tittle">
+					<span>O</span>rder's
+				</h3>
+				<div class="tittle-style" align="center">
+					<p style="color: red; size: 50px;">{{message}}</p>
+				</div>
+			</div>
+			<table id="customers">
+
+                <tr>
+                     <th>TX ID</th>
+                    <th>Customer ID</th>
+                    <th>Vendor ID</th>
+                    <th>Distributor ID</th>
+
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+
+                    <th>Amount</th>
+                    <th>TX Date</th>
+                    <th>Mode of Payment</th>
+
+                    <th>Delivery Status</th>
+                    <th>Payment Status</th>
+
+                    <th>Vendor Location</th>
+                    <th>Customer Location</th>
+
+                    {% if request.session.role in "distributor" %}
+                       <th>Update Status</th>
+                    {% endif %}
+				</tr>
+
+				{% for transaction in transactions %}
+                    <tr>
+                        <td>{{transaction.id}}</td>
+                        <td>{{transaction.customerid}}</td>
+                        <td>{{transaction.vendorid}}</td>
+                        <td>{{transaction.distributor}}</td>
+
+                        <td>{{transaction.productname}}</td>
+                        <td>{{transaction.qty}}</td>
+
+                        <td>{{transaction.txamount}}</td>
+                        <td>{{transaction.tdate}}</td>
+                        <td>{{transaction.modeofpayment}}</td>
+
+                        <td>{{transaction.deliverystatus}}</td>
+                        <td>{{transaction.paymentstatus}}</td>
+
+                        <td>{{transaction.vendorlocation}}</td>
+                        <td>{{transaction.customerlocation}}</td>
+
+                        {% if request.session.role in "distributor" %}
+                            <td><a href="/updatetransaction?id={{ transaction.id}}">update status</a></td>
+                        {% endif %}
+
+                {% endfor %}
+
+			</table>
+
+		</div>
+	</div>
+	{% include "footer.html" %}
+</body>
+</html>

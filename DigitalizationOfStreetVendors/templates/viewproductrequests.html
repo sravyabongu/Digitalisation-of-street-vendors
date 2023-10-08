@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	{% include "header.html" %}
+</head>
+<body>
+	{% include "menu2.html" %}
+	<div class="register-form-main">
+		<div class="container">
+			<div class="title-div">
+				<h3 class="tittle">
+					<span>Product</span> Request's
+				</h3>
+				<div class="tittle-style" align="center">
+					<p style="color: red; size: 50px;">{{message}}</p>
+				</div>
+			</div>
+			<table id="customers">
+				<tr>
+
+                    {% if request.session.role in "vendor" %}
+                        <th>Customer ID</th>
+                    {% endif %}
+
+                    {% if request.session.role in "customer" %}
+                        <th>Vendor ID</th>
+                    {% endif %}
+
+                    <th>Category</th>
+					<th>Quantity</th>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+
+                    {% if request.session.role in "vendor" %}
+                        <th>Approve/Reject</th>
+                    {% endif %}
+
+                    <th>Delete</th>
+
+				</tr>
+
+				{% for productrequest in productrequests %}
+                    <tr>
+
+                        {% if request.session.role in "vendor" %}
+                            <td>{{productrequest.customerid}}</td>
+                        {% endif %}
+
+                        {% if request.session.role in "customer" %}
+                            <td>{{productrequest.vendorid}}</td>
+                        {% endif %}
+
+                        <td>{{productrequest.category}}</td>
+                        <td>{{productrequest.qty}}</td>
+                        <td>{{productrequest.productname}}</td>
+                        <td>{{productrequest.description}}</td>
+                        <td>{{productrequest.status}}</td>
+
+                        {% if request.session.role in "vendor" %}
+
+                            {% if productrequest.status in "approved" %}
+                                 <td><a href="/updateproductrequest?id={{ productrequest.id}}&status=rejected">reject</a></td>
+                            {% endif %}
+
+                            {% if productrequest.status in "rejected" %}
+                                 <td><a href="/updateproductrequest?id={{ productrequest.id}}&status=approved">approve</a></td>
+                            {% endif %}
+
+                            {% if productrequest.status in "pending" %}
+                                 <td><a href="/updateproductrequest?id={{ productrequest.id}}&status=approved">approve</a></td>
+                            {% endif %}
+
+                        {% endif %}
+
+                        <td><a href="/deleteproductrequest?id={{ productrequest.id}}">Delete</a></td>
+
+                {% endfor %}
+			</table>
+		</div>
+	</div>
+	{% include "footer.html" %}
+</body>
+</html>

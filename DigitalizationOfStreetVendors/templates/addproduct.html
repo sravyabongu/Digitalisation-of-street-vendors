@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	{% include "header.html" %}
+</head>
+<body>
+	{% include "menu2.html" %}
+	<div class="register-form-main">
+		<div class="container">
+			<div class="title-div">
+				<h3 class="tittle">
+					<span>A</span>dd <span>P</span>roduct
+				</h3>
+				<div class="tittle-style" align="center">
+					<p style="color: red; size: 50px;">{{message}}</p>
+				</div>
+			</div>
+			<div class="login-form">
+				<form name="form" action="/addproductaction/" method="post">
+                    {% csrf_token %}
+
+                    <div class="">
+						<p>Product Name</p>
+						<input type="text" class="name" name="name" required="required"/>
+                    </div>
+
+                    <div class="">
+						<p>Price</p>
+						<input type="text" class="name" name="price" required="required"/>
+					</div>
+
+					<div class="">
+						<p>Available Quantity</p>
+						<input type="text" class="name" name="availableqty" required="required"/>
+					</div>
+
+                    <div class="">
+						<p>Description</p>
+                        <textarea class="name" name="description" required="required" rows="4" cols="70"></textarea>
+					</div>
+
+                    <div class="">
+						<p>Select Category</p>
+                        <select name="category" required style="width: 580px;height: 45px;">
+                            <option value="">--select--</option>
+                            <option value="fruits">Fruits</option>
+                            <option value="vegetables">Vegetables</option>
+                        </select>
+					</div>
+
+					<br />
+					<input type="submit" value="Add Product">
+				</form>
+			</div>
+		</div>
+	</div>
+	{% include "footer.html" %}
+</body>
+</html>

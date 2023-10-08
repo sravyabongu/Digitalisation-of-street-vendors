@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	{% include "header.html" %}
+</head>
+<body>
+	{% include "menu2.html" %}
+	<div class="register-form-main">
+		<div class="container">
+			<div class="title-div">
+				<h3 class="tittle">
+					<span>U</span>ser's
+				</h3>
+				<div class="tittle-style" align="center">
+					<p style="color: red; size: 50px;">{{message}}</p>
+				</div>
+			</div>
+
+            <div class="login-form">
+				<form name="form" action="/searchvendor">
+
+                    <div class="">
+						<p>Enter Location</p>
+						<input type="text" class="name" name="query" required="required"/>
+					</div>
+
+					<br />
+					<input type="submit" value="Search Vendor">
+				</form>
+			</div>
+
+            <br/><br/><br/>
+        
+			<table id="customers">
+				<tr>
+                    <th>User Name</th>
+                    <th>Name</th>
+                    <th>Email</th>
+					<th>Mobile</th>
+                    <th>Address</th>
+                    <th>User Type</th>
+
+                    {% if request.session.role in "admin" %}
+                        <th>Account Status</th>
+                        <th>activate/deactivate</th>
+                        <th>Delete</th>
+                    {% endif %}
+
+                    {% if request.session.role in "customer" %}
+                        <th>send request</th>
+                    {% endif %}
+
+				</tr>
+
+				{% for user in users %}
+                    <tr>
+                        <td>{{user.username}}</td>
+                        <td>{{user.name}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.mobile}}</td>
+                        <td>{{user.address}}</td>
+                        <td>{{user.usertype}}</td>
+
+                        {% if request.session.role in "admin" %}
+                            <td>{{user.status}}</td>
+
+                            {%if user.status in "yes" %}
+                                <td><a href="/activateaccount?username={{ user.username}}&status=no">de-activate</a></td>
+                            {% endif %}
+
+                            {%if user.status in "no" %}
+                                <td><a href="/activateaccount?username={{ user.username}}&status=yes">activate</a></td>
+                            {% endif %}
+
+                            <td><a href="/deleteuser?userid={{ user.username}}">Delete</a></td>
+
+                        {% endif %}
+
+                        {% if request.session.role in "customer" %}
+                            <td><a href="/addproductrequest?vendorid={{ user.username}}">send request</a></td>
+                        {% endif %}
+
+                {% endfor %}
+			</table>
+		</div>
+	</div>
+	{% include "footer.html" %}
+</body>
+</html>
